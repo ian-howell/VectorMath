@@ -16,11 +16,15 @@ void menu();
 // add a vector to the map
 void create(map<string, Vector>& vectors);
 
-// add 2 vectors together, giving the option to save the new vector
-void scalarMath(map<string, Vector>& vectors, string op);
+// create a new vector using vector operation 'op', then
+// give the option to save the new vector
+void vectorMath(map<string, Vector>& vectors, string op);
 
 // find the dot product of 2 vectors. Return the answer
 double dotMath(map<string, Vector>& vectors);
+
+// get the magnitude of a vector
+double findMagnitude(map<string, Vector>& vectors);
 
 // print the list of vectors
 void printList(map<string, Vector>& vectors);
@@ -47,11 +51,11 @@ int main()
 		}
 		else if(op ==  "add")
 		{
-			scalarMath(VList, "add");
+			vectorMath(VList, "add");
 		}
 		else if (op == "sub")
 		{
-			scalarMath(VList, "sub");
+			vectorMath(VList, "sub");
 		}
 		else if (op == "dot")
 		{
@@ -59,11 +63,11 @@ int main()
 		}
 		else if (op == "cro")
 		{
-			scalarMath(VList, "cross");
+			vectorMath(VList, "cross");
 		}
 		else if (op == "mag")
 		{
-			cout << "magnitude\n";
+			findMagnitude(VList);
 		}
 		else if (op == "ang")
 		{
@@ -133,7 +137,7 @@ void create(map<string, Vector>& vectors)
 	vectors[name] = Vector(i, j, k);
 }
 
-void scalarMath(map<string, Vector>& vectors, string op)
+void vectorMath(map<string, Vector>& vectors, string op)
 {
 	if (vectors.size() < 2 )
 	{
@@ -217,6 +221,29 @@ double dotMath(map<string, Vector>& vectors)
 	double answer = dot(vectors[v1], vectors[v2]);
 
 	cout << v1 << " dot " << v2 << " = " << answer << endl;
+
+	return answer;
+
+
+}
+
+double findMagnitude(map<string, Vector>& vectors)
+{
+	string v1 = "";
+	double answer = 0;
+	cout << "Enter the name of the vector whose magnitude you want\n";
+	prompt();
+	cin >> v1;
+
+	if (vectors.find(v1) == vectors.end())
+	{
+		cout << v1 << " was not found in the list\n";
+		return -1;
+	}
+
+	answer = vectors[v1].getMagnitude();
+
+	cout << "Magnitude of " << v1 << ": " << answer << endl;
 
 	return answer;
 
