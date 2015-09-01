@@ -20,8 +20,9 @@ void create(map<string, Vector>& vectors);
 // give the option to save the new vector
 void vectorMath(map<string, Vector>& vectors, string op);
 
-// find the dot product of 2 vectors. Return the answer
-double dotMath(map<string, Vector>& vectors);
+// find either the angle or dot product of 2 vectors based on 'op'
+// return the answer
+double scalarMath(map<string, Vector>& vectors, string op);
 
 // get the magnitude of a vector
 double findMagnitude(map<string, Vector>& vectors);
@@ -59,7 +60,7 @@ int main()
 		}
 		else if (op == "dot")
 		{
-			dotMath(VList);
+			scalarMath(VList, "dot");
 		}
 		else if (op == "cro")
 		{
@@ -71,7 +72,7 @@ int main()
 		}
 		else if (op == "ang")
 		{
-			cout << "angle\n";
+			scalarMath(VList, "angle");
 		}
 		else if (op == "pri")
 		{
@@ -127,7 +128,7 @@ void create(map<string, Vector>& vectors)
 	string name = "";
 	double i = 0, j = 0, k = 0;
 
-	cout << "Enter a name for this string\n";
+	cout << "Enter a name for this vector\n";
 	prompt();
 	cin >> name;
 	cout << "Enter the i, j, and k components seperated by spaces\n";
@@ -193,15 +194,17 @@ void vectorMath(map<string, Vector>& vectors, string op)
 	}
 }
 
-double dotMath(map<string, Vector>& vectors)
+double scalarMath(map<string, Vector>& vectors, string op)
 {
 	if (vectors.size() < 2 )
 	{
-		cout << "ERROR: You must have at least 2 vectors saved for this function\n";
+		cout << "ERROR: You must have at least 2 vectors saved "
+			 << "for this function\n";
 		return -1;
 	}
 
-	cout << "Enter the names of the two vectors you would like to dot together\n";
+	cout << "Enter the names of the two vectors for the " 
+		<< op << " operation\n";
 	prompt();
 
 	string v1, v2;
@@ -218,13 +221,20 @@ double dotMath(map<string, Vector>& vectors)
 		return -1;
 	}
 
-	double answer = dot(vectors[v1], vectors[v2]);
-
-	cout << v1 << " dot " << v2 << " = " << answer << endl;
+	double answer = 0;
+	if (op == "dot")
+	{
+		answer = dot(vectors[v1], vectors[v2]);
+		cout << v1 << " dot " << v2 << " = " << answer << endl;
+	}
+	else if (op == "angle")
+	{
+		answer = angle(vectors[v1], vectors[v2]);
+		cout << "The angle between " << v1 << " and " << v2
+			 << " is " << answer << endl;
+	}
 
 	return answer;
-
-
 }
 
 double findMagnitude(map<string, Vector>& vectors)
@@ -246,8 +256,6 @@ double findMagnitude(map<string, Vector>& vectors)
 	cout << "Magnitude of " << v1 << ": " << answer << endl;
 
 	return answer;
-
-
 }
 
 void printList(map<string, Vector>& vectors)
