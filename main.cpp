@@ -27,6 +27,9 @@ double scalarMath(map<string, Vector>& vectors, string op);
 // get the magnitude of a vector
 double findMagnitude(map<string, Vector>& vectors);
 
+// delete a vector from the map
+void deleteVector(map<string, Vector>& vectors);
+
 // print the list of vectors
 void printList(map<string, Vector>& vectors);
 
@@ -80,11 +83,12 @@ int main()
 		}
 		else if (op == "del")
 		{
-			cout << "delete\n";
+			deleteVector(VList);
 		}
 		else if (op == "exi")
 		{
-			cout << "exit\n";
+			// Delete vectors!
+			cout << "Goodbye!\n";
 		}
 		else if (op == "?")
 		{
@@ -256,6 +260,24 @@ double findMagnitude(map<string, Vector>& vectors)
 	cout << "Magnitude of " << v1 << ": " << answer << endl;
 
 	return answer;
+}
+
+void deleteVector(map<string, Vector>& vectors)
+{
+	string v1 = "";
+	cout << "Enter the name of the vector you would like to delete\n";
+	prompt();
+	cin >> v1;
+
+	map<string, Vector>::iterator p = vectors.find(v1);
+	if (p == vectors.end())
+	{
+		cout << v1 << " was not found in the list\n";
+		return;
+	}
+
+	// delete the item from the map
+	vectors.erase(p);
 }
 
 void printList(map<string, Vector>& vectors)
